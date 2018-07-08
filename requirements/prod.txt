@@ -7,11 +7,13 @@ Werkzeug==0.14.1
 Jinja2==2.10
 itsdangerous==0.24
 click>=5.0
+python-dotenv
 
 # Database
 Flask-SQLAlchemy==2.3.2
 psycopg2==2.7.5
 SQLAlchemy==1.2.9
+Flask-Admin
 
 # Migrations
 Flask-Migrate==2.2.0

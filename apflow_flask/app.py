@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
+from flask_admin.contrib.sqla import ModelView
 
 from apflow_flask import commands, public, user
-from apflow_flask.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack
+from apflow_flask.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack, admin
 from apflow_flask.settings import ProdConfig
+from apflow_flask.user.models import User, Role, UserRoles
 
 
 def create_app(config_object=ProdConfig):
@@ -19,6 +21,7 @@ def create_app(config_object=ProdConfig):
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
+    register_admin_views()
     return app
 
 
@@ -32,6 +35,7 @@ def register_extensions(app):
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
     webpack.init_app(app)
+    admin.init_app(app)
     return None
 
 
@@ -40,6 +44,11 @@ def register_blueprints(app):
     app.register_blueprint(public.views.blueprint)
     app.register_blueprint(user.views.blueprint)
     return None
+
+def register_admin_views():
+    admin.add_view(ModelView(User, db.session, name='User'))
+    admin.add_view(ModelView(Role, db.session, name='Role'))
+    admin.add_view(ModelView(UserRoles, db.session, name='UserRoles'))
 
 
 def register_errorhandlers(app):
