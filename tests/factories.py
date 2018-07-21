@@ -3,8 +3,8 @@
 from factory import PostGenerationMethodCall, Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
-from apflow_flask.database import db
-from apflow_flask.user.models import User
+from apflow_flask.models.database import db
+from apflow_flask.models.user import User
 
 
 class BaseFactory(SQLAlchemyModelFactory):

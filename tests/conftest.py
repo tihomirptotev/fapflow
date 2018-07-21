@@ -5,7 +5,7 @@ import pytest
 from webtest import TestApp
 
 from apflow_flask.app import create_app
-from apflow_flask.database import db as _db
+from apflow_flask.models.database import db as _db
 from apflow_flask.settings import TestConfig
 
 from .factories import UserFactory

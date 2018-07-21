@@ -4,7 +4,14 @@ import datetime as dt
 
 from flask_login import UserMixin
 
-from apflow_flask.database import Column, Model, SurrogatePK, db, reference_col, relationship
+from apflow_flask.models.database import (
+    Column,
+    Model,
+    SurrogatePK,
+    db,
+    reference_col,
+    relationship
+)
 from apflow_flask.extensions import bcrypt
 
 
@@ -40,13 +47,13 @@ class User(UserMixin, SurrogatePK, Model):
     is_admin = Column(db.Boolean(), default=False)
     roles = relationship('Role', secondary='user_roles')
 
-    # def __init__(self, username, email, password=None, **kwargs):
-    #     """Create instance."""
-    #     db.Model.__init__(self, username=username, email=email, **kwargs)
-    #     if password:
-    #         self.set_password(password)
-    #     else:
-    #         self.password = None
+    def __init__(self, username, email, password=None, **kwargs):
+        """Create instance."""
+        db.Model.__init__(self, username=username, email=email, **kwargs)
+        if password:
+            self.set_password(password)
+        else:
+            self.password = None
 
     def set_password(self, password):
         """Set password."""
@@ -55,6 +62,12 @@ class User(UserMixin, SurrogatePK, Model):
     def check_password(self, value):
         """Check password."""
         return bcrypt.check_password_hash(self.password, value)
+
+    @classmethod
+    def find_by_identity(cls, identity):
+        user = User.query.filter(
+            (User.username == identity) | (User.email == identity)).first()
+        return user
 
     @property
     def full_name(self):

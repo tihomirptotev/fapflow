@@ -5,8 +5,8 @@ from flask_login import login_required, login_user, logout_user
 
 from apflow_flask.extensions import login_manager
 from apflow_flask.public.forms import LoginForm
-from apflow_flask.user.forms import RegisterForm
-from apflow_flask.user.models import User
+from apflow_flask.users.forms import RegisterForm
+from apflow_flask.models.user import User
 from apflow_flask.utils import flash_errors
 
 blueprint = Blueprint('public', __name__, static_folder='../static')
@@ -27,7 +27,7 @@ def home():
         if form.validate_on_submit():
             login_user(form.user)
             flash('You are logged in.', 'success')
-            redirect_url = request.args.get('next') or url_for('user.members')
+            redirect_url = request.args.get('next') or url_for('users.members')
             return redirect(redirect_url)
         else:
             flash_errors(form)

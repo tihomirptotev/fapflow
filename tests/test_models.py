@@ -4,7 +4,7 @@ import datetime as dt
 
 import pytest
 
-from apflow_flask.user.models import Role, User
+from apflow_flask.models.user import Role, User
 
 from .factories import UserFactory
 
@@ -15,7 +15,7 @@ class TestUser:
 
     def test_get_by_id(self):
         """Get user by ID."""
-        user = User('foo', 'foo@bar.com')
+        user = User(username='foo', email='foo@bar.com')
         user.save()
 
         retrieved = User.get_by_id(user.id)
@@ -60,8 +60,11 @@ class TestUser:
     def test_roles(self):
         """Add a role to a user."""
         role = Role(name='admin')
+        role2 = Role(name='member')
         role.save()
+        role2.save()
         user = UserFactory()
         user.roles.append(role)
+        user.roles.append(role2)
         user.save()
-        assert role in user.roles
+        assert (role2 in user.roles) and (role in user.roles)

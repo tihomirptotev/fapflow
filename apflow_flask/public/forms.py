@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired
 
-from apflow_flask.user.models import User
+from apflow_flask.models.user import User
 
 
 class LoginForm(FlaskForm):

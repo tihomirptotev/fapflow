@@ -2,7 +2,7 @@
 """Test forms."""
 
 from apflow_flask.public.forms import LoginForm
-from apflow_flask.user.forms import RegisterForm
+from apflow_flask.users.forms import RegisterForm
 
 
 class TestRegisterForm:

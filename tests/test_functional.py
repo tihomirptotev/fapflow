@@ -5,7 +5,7 @@ See: http://webtest.readthedocs.org/
 """
 from flask import url_for
 
-from apflow_flask.user.models import User
+from apflow_flask.models.user import User
 
 from .factories import UserFactory
 
