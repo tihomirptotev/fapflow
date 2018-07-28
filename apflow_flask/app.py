@@ -9,6 +9,7 @@ from apflow_flask import commands, public, users
 from apflow_flask.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack
 from apflow_flask.settings import ProdConfig
 from apflow_flask.models.user import User, Role, UserRoles
+from apflow_flask.models.company import CompanyUnit
 
 
 def create_app(config_object=ProdConfig):
@@ -71,7 +72,7 @@ def register_shellcontext(app):
         """Shell context objects."""
         return {
             'db': db,
-            'User': users.models.User}
+            'User': User}
 
     app.shell_context_processor(shell_context)
 

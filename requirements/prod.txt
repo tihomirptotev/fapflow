@@ -11,9 +11,12 @@ python-dotenv
 
 # Database
 Flask-SQLAlchemy==2.3.2
-psycopg2==2.7.5
+psycopg2-binary
 SQLAlchemy==1.2.9
 Flask-Admin
+# Record versioning
+SQLAlchemy-Continuum
+arrow
 
 # Migrations
 Flask-Migrate==2.2.0

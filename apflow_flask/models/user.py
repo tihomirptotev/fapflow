@@ -45,6 +45,7 @@ class User(UserMixin, SurrogatePK, Model):
     last_name = Column(db.String(30), nullable=True)
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
+    company_unit_id = reference_col('company_units', nullable=True)
     roles = relationship('Role', secondary='user_roles')
 
     def __init__(self, username, email, password=None, **kwargs):
@@ -91,3 +92,6 @@ class UserRoles(db.Model):
     id = Column(db.Integer(), primary_key=True)
     user_id = Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     role_id = Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
+
+
+User.

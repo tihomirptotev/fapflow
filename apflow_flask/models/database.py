@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Database module, including the SQLAlchemy database object and DB-related utilities."""
+import arrow
+from sqlalchemy_utils import ArrowType
 from apflow_flask.compat import basestring
 from apflow_flask.extensions import db
 
@@ -60,6 +62,14 @@ class SurrogatePK(object):
         ):
             return cls.query.get(int(record_id))
         return None
+
+
+class AuditMixin(SurrogatePK):
+
+    created_on = Column(ArrowType, default=arrow.utcnow)
+    updated_on = Column(ArrowType, default=arrow.utcnow, onupdate=arrow.utcnow)
+    created_by = Column(db.Integer, nullable=False)
+    updated_by = Column(db.Integer, nullable=False)
 
 
 def reference_col(tablename, nullable=False, pk_name='id', **kwargs):
