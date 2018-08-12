@@ -8,8 +8,9 @@ from flask_admin.contrib.sqla import ModelView
 from apflow_flask import commands, public, users
 from apflow_flask.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack
 from apflow_flask.settings import ProdConfig
-from apflow_flask.models.user import User, Role, UserRoles
-from apflow_flask.models.company import CompanyUnit
+# from apflow_flask.models.user import User, Role, UserRoles
+# from apflow_flask.models.company import CompanyUnit, CompanyUnitType
+from apflow_flask.models import *
 
 
 def create_app(config_object=ProdConfig):
@@ -52,7 +53,15 @@ def register_admin_views(app):
     admin = Admin(app, name='AP Flow')
     admin.add_view(ModelView(User, db.session, category='Security'))
     admin.add_view(ModelView(Role, db.session, category='Security'))
+
     admin.add_view(ModelView(CompanyUnit, db.session, category='Company'))
+    admin.add_view(ModelView(CompanyUnitType, db.session, category='Company'))
+    admin.add_view(ModelView(CostAccount, db.session, category='Company'))
+
+    admin.add_view(ModelView(Counterparty, db.session,
+                   category='Counterparties'))
+    admin.add_view(ModelView(CounterpartyNote, db.session,
+                   category='Counterparties'))
     return None
 
 

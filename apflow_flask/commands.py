@@ -10,6 +10,7 @@ from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
 from apflow_flask.models.user import User
 from apflow_flask.extensions import db
+from apflow_flask.data import dev_data
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -46,6 +47,17 @@ def create_admin(username, first_name, last_name, email, password):
     db.session.add(admin)
     db.session.commit()
     click.echo(f'Admin user: {username} created.')
+
+
+@apflow.command()
+@with_appcontext
+def initdb_with_test_data():
+    """ Create test data """
+    db.drop_all()
+    db.create_all()
+    yaml_data_file = os.path.join(HERE, 'data', 'data.yaml')
+    data_manager = dev_data.DevDataImport(db, yaml_data_file)
+    data_manager.run_all()
 
 
 @apflow.command()

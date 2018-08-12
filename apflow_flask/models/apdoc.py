@@ -2,7 +2,7 @@ from .database import db, AuditMixin, Model, reference_col, Column, relationship
 
 class DocType(AuditMixin, Model):
 
-    __table_name__ = 'doc_types'
+    __tablename__ = 'doc_types'
 
     type_name = Column(db.String(length=30))
 
@@ -19,7 +19,7 @@ class ApDocument(AuditMixin, Model):
     doc_sum = Column(db.Numeric)
     doc_info = Column(db.UnicodeText, nullable=False)
     doc_info_additional = Column(db.UnicodeText, nullable=True)
-    doc_type = Column(db.String(length=30))
+    doc_type_id = reference_col('doc_types')
     level = Column(db.String(length=30))
     status = Column(db.String(length=30))
     cd_entries = relationship('ApDocCostDistribution',

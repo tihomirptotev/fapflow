@@ -3,7 +3,19 @@
 from sqlalchemy_utils import ChoiceType
 from apflow_flask.extensions import db
 from .database import reference_col, relationship, AuditMixin, Column, Model
-from .data import UNIT_TYPES
+
+
+class CompanyUnitType(AuditMixin, Model):
+    """ Company unit types. """
+
+    __tablename__ = 'company_unit_types'
+    name = Column(db.String(length=128), index=True, unique=True,
+                  nullable=False)
+    company_units = relationship('CompanyUnit', lazy='dynamic',
+                                 backref='unit_type')
+
+    def __repr__(self):
+        return self.name
 
 
 class CompanyUnit(AuditMixin, Model):
@@ -11,8 +23,9 @@ class CompanyUnit(AuditMixin, Model):
 
     __tablename__ = 'company_units'
     id = Column(db.Integer, primary_key=True)
-    name = Column(db.String(length=128), index=True, unique=True, nullable=False)
-    org_type = Column(ChoiceType(UNIT_TYPES))
+    name = Column(db.String(length=128), index=True, unique=True,
+                  nullable=False)
+    unit_type_id = reference_col('company_unit_types', nullable=False)
     parent_id = reference_col('company_units', nullable=True)
     parent = relationship('CompanyUnit',
                           backref='children',

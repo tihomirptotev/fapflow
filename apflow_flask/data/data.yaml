@@ -1,0 +1,79 @@
+users:
+  admin:
+    username: admin
+    email: admin@local.host
+    password: pass
+    first_name: Tihomir
+    last_name: Totev
+    active: True
+    is_admin: True
+
+unit_types:
+  - head_office
+  - department
+  - branch
+  - office
+
+units:
+  -
+    name: fibank
+    unit_type: head_office
+    parent:
+  -
+    name: retail_department
+    unit_type: department
+    parent: fibank
+  -
+    name: micro_lending
+    unit_type: office
+    parent: retail_department
+  -
+    name: branch_network
+    unit_type: department
+    parent: fibank
+  -
+    name: branch_stara_zagora
+    unit_type: branch
+    parent: branch_network
+  -
+    name: office_car_simeon
+    unit_type: office
+    parent: branch_stara_zagora
+  -
+    name: office_radnevo
+    unit_type: office
+    parent: branch_stara_zagora
+
+ap_document_types:
+  - invoice
+  - business_trip_order
+  - offer
+  - contract
+
+ap_approval_levels:
+  - approved_in_advance
+  - level_bn
+  - level_acc
+  - level_exec
+
+ap_workflow_status:
+  - draft
+  - approved_in_advance
+  - pending_bn
+  - pending_acc
+  - pending_exec
+  - approved_final
+
+counterparties:
+  -
+    name: Counterparty 1
+    eik_egn: 111111111
+  -
+    name: Counterparty 2
+    eik_egn: 111111112
+  -
+    name: Counterparty 3
+    eik_egn: 111111113
+  -
+    name: Counterparty 4
+    eik_egn: 111111114

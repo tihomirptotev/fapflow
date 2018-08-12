@@ -1,10 +1,3 @@
-# Units in the structure of the organization
-UNIT_TYPES = [
-    ('department', 'Department'),
-    ('branch', 'Branch'),
-    ('office', 'Office')
-]
-
 # Types of account payable documents
 AP_DOCUMENT_TYPES = [
     ('invoice', 'Invoice'),
