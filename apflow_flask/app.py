@@ -47,10 +47,12 @@ def register_blueprints(app):
     app.register_blueprint(users.views.blueprint)
     return None
 
+
 def register_admin_views(app):
     admin = Admin(app, name='AP Flow')
     admin.add_view(ModelView(User, db.session, category='Security'))
     admin.add_view(ModelView(Role, db.session, category='Security'))
+    admin.add_view(ModelView(CompanyUnit, db.session, category='Company'))
     return None
 
 
@@ -83,3 +85,4 @@ def register_commands(app):
     app.cli.add_command(commands.lint)
     app.cli.add_command(commands.clean)
     app.cli.add_command(commands.urls)
+    app.cli.add_command(commands.apflow)

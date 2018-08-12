@@ -8,6 +8,8 @@ import click
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
+from apflow_flask.models.user import User
+from apflow_flask.extensions import db
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -20,6 +22,53 @@ def test():
     import pytest
     rv = pytest.main([TEST_PATH, '--verbose'])
     exit(rv)
+
+
+@click.group()
+def apflow():
+    """ Main admin script """
+    pass
+
+
+@apflow.command()
+@click.option('--username', prompt='Enter username')
+@click.option('--first_name', prompt='First name')
+@click.option('--last_name', prompt='Last name')
+@click.option('--email', prompt='Email')
+@click.option('--password', prompt='Password', hide_input=True,
+              confirmation_prompt=True)
+@with_appcontext
+def create_admin(username, first_name, last_name, email, password):
+    """ Create an admin user. """
+    admin = User(username, email, password=password,
+                 first_name=first_name, last_name=last_name,
+                 active=True, is_admin=True)
+    db.session.add(admin)
+    db.session.commit()
+    click.echo(f'Admin user: {username} created.')
+
+
+@apflow.command()
+@click.confirmation_option(prompt='Are you sure you want to drop the tables?')
+@with_appcontext
+def drop_all():
+    """ Drop all database tables. """
+    db.drop_all()
+    click.echo('All tables have been dropped!')
+
+
+@apflow.command()
+@with_appcontext
+def create_all():
+    """ Create all database tables. """
+    db.create_all()
+    click.echo('All tables have been created!')
+
+
+@apflow.command()
+def add_sample_data():
+    """ Add sample data to play with. """
+    click.echo('Data added.')
 
 
 @click.command()

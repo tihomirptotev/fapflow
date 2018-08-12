@@ -92,6 +92,3 @@ class UserRoles(db.Model):
     id = Column(db.Integer(), primary_key=True)
     user_id = Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
     role_id = Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
-
-
-User.

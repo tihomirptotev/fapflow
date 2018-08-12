@@ -21,6 +21,9 @@ class CompanyUnit(AuditMixin, Model):
                          backref='company_unit',
                          lazy='dynamic')
 
+    def __repr__(self):
+        return self.name
+
 
 class CostAccount(AuditMixin, Model):
     """ Accounts used for cost accounting """
